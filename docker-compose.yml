@@ -1,0 +1,12 @@
+version: '2'
+services:
+  dns:
+    build: .
+    restart: always
+    container_name: greenflux_dnsmasq
+    volumes:
+      - ./dnsmasq.conf:/etc/dnsmasq.conf
+    ports:
+      - "53:53/udp"
+    cap_add:
+      - NET_ADMIN
