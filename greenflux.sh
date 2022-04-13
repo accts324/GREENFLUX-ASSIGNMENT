@@ -68,7 +68,7 @@ echo "Creating NSG rule in $nsgAcc to allow traffic from 195.169.110.175"
 az network nsg rule create --resource-group $resourceGroup --nsg-name $nsgAcc --name Allow-IP --priority 101 --source-address-prefixes "195.169.110.175/32" --source-port-ranges "*" --destination-address-prefixes '*' --destination-port-ranges 22 --access allow --protocol Tcp --description "Allow from specific IP address ranges on 22."
 
 echo "Associate $nsgTest to $subnetTest"
-az network vnet subnet update --vnet-name $vNet1 --name $subnetTest--resource-group $resourceGroup --network-security-group $nsgTest
+az network vnet subnet update --vnet-name $vNet1 --name $subnetTest --resource-group $resourceGroup --network-security-group $nsgTest
 
 # Associate the backend NSG to the ACC subnet.
 echo "Associate $nsgAcc to $subnetAcc"
