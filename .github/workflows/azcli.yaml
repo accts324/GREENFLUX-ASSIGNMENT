@@ -36,6 +36,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     if: ${{ github.event.inputs.actions == 'Deploy' }}
+    needs: [ DockerImageBuild ]
     steps:
 
     - name: Azure Login
