@@ -16,6 +16,7 @@ name: AzureCLIDeployment
 jobs:
   DockerImageBuild:
     runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.actions == 'Deploy' }}
     steps:
     - name: Checkout
       uses: actions/checkout@v1
@@ -34,6 +35,7 @@ jobs:
 
   build-and-deploy:
     runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.actions == 'Deploy' }}
     steps:
 
     - name: Azure Login
@@ -51,3 +53,23 @@ jobs:
         inlineScript: |
           chmod +x $GITHUB_WORKSPACE/greenflux.sh
           $GITHUB_WORKSPACE/greenflux.sh
+  delete:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.actions == 'Delete' }}
+    steps:
+
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Azure CLI script file
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.30.0
+        inlineScript: |
+             echo "Deleting all resources"
+             az group delete --name greenflux-virtual-network-rg -y
